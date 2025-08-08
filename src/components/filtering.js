@@ -1,12 +1,12 @@
-export function initFiltering(elements, indexes) {
+export function initFiltering(elements) {
   // @todo: #4.1 — заполнить выпадающие списки опциями
   const updateIndexes = (elements, indexes) => {
     Object.keys(indexes).forEach((elementName) => {
       elements[elementName].append(
         ...Object.values(indexes[elementName]).map((name) => {
           const option = document.createElement("option");
-          option.value = name;
           option.textContent = name;
+          option.value = name;
           return option;
         })
       );
@@ -15,15 +15,11 @@ export function initFiltering(elements, indexes) {
 
   const applyFiltering = (query, state, action) => {
     // @todo: #4.2 — обработать очистку поля
-
     if (action && action.name === "clear") {
       const field = action.dataset.field;
-      const parent = action.closest(".form__field");
-      const input = parent?.querySelector("input, select");
-      if (input) {
-        input.value = "";
-        state[fieldName] = "";
-      }
+      const input = action.closest(".filter-wrapper").querySelector("input");
+      input.value = "";
+      state[field] = "";
     }
 
     // @todo: #4.5 — отфильтровать данные используя компаратор
